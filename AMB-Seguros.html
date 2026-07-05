@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMB Seguros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue-dark:  #0F2D6B;
+      --blue:       #1A4BAA;
+      --blue-mid:   #2563EB;
+      --blue-light: #EEF4FF;
+      --blue-pale:  #F5F8FF;
+      --accent:     #3B82F6;
+      --white:      #FFFFFF;
+      --gray-1:     #F9FAFB;
+      --gray-2:     #F3F4F6;
+      --gray-3:     #E5E7EB;
+      --gray-text:  #6B7280;
+      --dark-text:  #111827;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--white); color: var(--dark-text); overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-3);
+      padding: 0 2.5rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: var(--blue-dark); letter-spacing: -0.02em; }
+    .logo span { color: var(--blue-mid); }
+    nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
+    nav ul a { font-size: .875rem; font-weight: 500; color: var(--gray-text); text-decoration: none; transition: color .2s; }
+    nav ul a:hover { color: var(--blue-mid); }
+    .btn-nav { background: var(--blue-mid); color: var(--white) !important; padding: .5rem 1.25rem; border-radius: 8px; font-weight: 600 !important; transition: background .2s !important; }
+    .btn-nav:hover { background: var(--blue-dark) !important; }
+
+    .btn-primary { display:inline-block; background:var(--blue-mid); color:var(--white); font-size:1rem; font-weight:600; padding:.875rem 2rem; border-radius:10px; text-decoration:none; transition:background .2s,transform .15s; }
+    .btn-primary:hover { background:var(--blue-dark); transform:translateY(-2px); }
+    .btn-secondary { display:inline-block; background:transparent; color:var(--blue-mid); font-size:1rem; font-weight:600; padding:.875rem 2rem; border-radius:10px; border:2px solid var(--blue-mid); text-decoration:none; transition:all .2s; }
+    .btn-secondary:hover { background:var(--blue-light); transform:translateY(-2px); }
+    .btn-white { display:inline-block; background:var(--white); color:var(--blue-dark); font-size:1rem; font-weight:700; padding:.875rem 2rem; border-radius:10px; text-decoration:none; transition:all .2s; }
+    .btn-white:hover { background:var(--blue-light); transform:translateY(-2px); }
+
+    section { padding: 6rem 2.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* HERO */
+    .hero { background:var(--blue-pale); min-height:100vh; display:flex; align-items:center; padding-top:8rem; padding-bottom:5rem; position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; top:-200px; right:-200px; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle,rgba(37,99,235,.08) 0%,transparent 70%); pointer-events:none; }
+    .hero-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+    .hero-badge { display:inline-flex; align-items:center; gap:.5rem; background:var(--blue-light); color:var(--blue-mid); font-size:.8rem; font-weight:600; padding:.35rem .9rem; border-radius:20px; margin-bottom:1.5rem; border:1px solid rgba(37,99,235,.2); }
+    .badge-dot { width:6px; height:6px; background:var(--blue-mid); border-radius:50%; animation:blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    h1 { font-size:clamp(2.5rem,4.5vw,4rem); font-weight:800; line-height:1.1; letter-spacing:-.03em; color:var(--blue-dark); margin-bottom:1.25rem; }
+    h1 .highlight { color:var(--blue-mid); }
+    .hero-sub { font-size:1.1rem; font-weight:400; line-height:1.75; color:var(--gray-text); margin-bottom:2rem; max-width:480px; }
+    .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; }
+    .hero-visual { display:flex; flex-direction:column; gap:1rem; }
+    .card-float { background:var(--white); border-radius:16px; padding:1.5rem; box-shadow:0 4px 24px rgba(15,45,107,.08); display:flex; align-items:center; gap:1rem; transition:transform .3s; }
+    .card-float:hover { transform:translateY(-3px); }
+    .card-float:nth-child(2) { margin-left:2rem; }
+    .card-icon { width:48px; height:48px; border-radius:12px; background:var(--blue-light); display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+    .card-info h4 { font-size:.9rem; font-weight:700; color:var(--blue-dark); margin-bottom:.2rem; }
+    .card-info p { font-size:.78rem; color:var(--gray-text); }
+    .card-badge { margin-left:auto; background:#DCFCE7; color:#16A34A; font-size:.7rem; font-weight:600; padding:.25rem .6rem; border-radius:20px; white-space:nowrap; }
+
+    .trust-strip { background:var(--white); border-top:1px solid var(--gray-3); border-bottom:1px solid var(--gray-3); padding:1.25rem 2.5rem; }
+    .trust-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+    .trust-item { display:flex; align-items:center; gap:.6rem; font-size:.85rem; font-weight:500; color:var(--gray-text); }
+
+    .section-eyebrow { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--blue-mid); margin-bottom:.75rem; }
+    h2 { font-size:clamp(1.75rem,3vw,2.5rem); font-weight:800; letter-spacing:-.02em; line-height:1.15; color:var(--blue-dark); margin-bottom:1rem; }
+    .section-sub { font-size:1rem; color:var(--gray-text); line-height:1.75; max-width:520px; margin-bottom:3rem; }
+
+    /* COMO */
+    .como { background:var(--white); }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; }
+    .step { background:var(--blue-pale); border-radius:16px; padding:2rem; position:relative; }
+    .step-num { width:40px; height:40px; background:var(--blue-mid); color:var(--white); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:.9rem; font-weight:700; margin-bottom:1.25rem; }
+    .step h3 { font-size:1.05rem; font-weight:700; color:var(--blue-dark); margin-bottom:.5rem; }
+    .step p { font-size:.9rem; color:var(--gray-text); line-height:1.65; }
+    .step-arrow { position:absolute; top:2.5rem; right:-1.25rem; color:var(--blue-mid); font-size:1.25rem; z-index:1; }
+
+    /* SEGUROS */
+    .seguros { background:var(--blue-dark); }
+    .seguros h2 { color:var(--white); }
+    .seguros .section-eyebrow { color:rgba(255,255,255,.6); }
+    .seguros .section-sub { color:rgba(255,255,255,.65); }
+
+    .seguros-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+
+    .seguro-card {
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:2rem 1.75rem;
+      transition:background .25s,transform .25s;
+      cursor:default;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+    }
+    .seguro-card:hover { background:rgba(255,255,255,.11); transform:translateY(-4px); }
+
+    .seg-illustration {
+      width:100%;
+      height:130px;
+      margin-bottom:1.25rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .seg-illustration svg { width:auto; height:100%; }
+
+    .seguro-card h3 { font-size:1rem; font-weight:700; color:var(--white); margin-bottom:.4rem; }
+    .seguro-card p { font-size:.85rem; color:rgba(255,255,255,.6); line-height:1.65; }
+    .seg-chip { display:inline-block; margin-top:.75rem; font-size:.68rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:rgba(59,130,246,.25); color:#93C5FD; padding:.25rem .65rem; border-radius:20px; }
+
+    /* PORQUE */
+    .porque { background:var(--gray-1); }
+    .porque-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+    .porque-items { display:flex; flex-direction:column; gap:1.5rem; margin-top:2rem; }
+    .porque-item { display:flex; gap:1rem; align-items:flex-start; }
+    .pq-icon { width:44px; height:44px; background:var(--blue-light); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+    .pq-text h4 { font-size:.95rem; font-weight:700; color:var(--blue-dark); margin-bottom:.3rem; }
+    .pq-text p { font-size:.85rem; color:var(--gray-text); line-height:1.65; }
+    .porque-right { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .stat-card { background:var(--white); border-radius:16px; padding:1.75rem; box-shadow:0 2px 16px rgba(15,45,107,.06); }
+    .stat-card:first-child { grid-column:1/-1; background:var(--blue-mid); }
+    .stat-num { font-size:2.5rem; font-weight:800; letter-spacing:-.03em; line-height:1; margin-bottom:.35rem; color:var(--blue-dark); }
+    .stat-card:first-child .stat-num { color:var(--white); }
+    .stat-label { font-size:.85rem; color:var(--gray-text); }
+    .stat-card:first-child .stat-label { color:rgba(255,255,255,.75); }
+
+    /* EQUIPO */
+    .equipo { background:var(--white); }
+    .team-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+    .team-card { background:var(--blue-pale); border-radius:20px; padding:2rem; transition:transform .25s; }
+    .team-card:hover { transform:translateY(-4px); }
+    .team-avatar { width:56px; height:56px; border-radius:14px; background:var(--blue-mid); color:var(--white); font-size:1.2rem; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; }
+    .team-name { font-size:1.1rem; font-weight:700; color:var(--blue-dark); margin-bottom:.2rem; }
+    .team-role { font-size:.78rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--blue-mid); margin-bottom:.85rem; }
+    .team-bio { font-size:.875rem; color:var(--gray-text); line-height:1.7; }
+
+    /* CTA */
+    .cta-section { background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%); padding:6rem 2.5rem; text-align:center; }
+    .cta-section h2 { color:var(--white); font-size:clamp(2rem,4vw,3rem); margin-bottom:1rem; }
+    .cta-section p { color:rgba(255,255,255,.7); font-size:1rem; margin-bottom:2rem; }
+    .cta-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+
+    footer { background:var(--blue-dark); border-top:1px solid rgba(255,255,255,.08); padding:2rem 2.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    footer .logo { color:var(--white); font-size:1.1rem; }
+    footer .logo span { color:#93C5FD; }
+    footer p { font-size:.78rem; color:rgba(255,255,255,.4); }
+
+    .fade-up { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
+    .fade-up:nth-child(2){transition-delay:.1s}
+    .fade-up:nth-child(3){transition-delay:.2s}
+    .fade-up:nth-child(4){transition-delay:.3s}
+
+    @media(max-width:900px){
+      .hero-inner{grid-template-columns:1fr}
+      .hero-visual{display:none}
+      .steps{grid-template-columns:1fr}
+      .step-arrow{display:none}
+      .seguros-grid{grid-template-columns:1fr 1fr}
+      .porque-grid{grid-template-columns:1fr;gap:3rem}
+      .team-grid{grid-template-columns:1fr}
+      nav ul{display:none}
+    }
+    @media(max-width:560px){
+      .seguros-grid{grid-template-columns:1fr}
+      section{padding:4rem 1.25rem}
+      .trust-inner{justify-content:center}
+      .porque-right{grid-template-columns:1fr}
+      .stat-card:first-child{grid-column:auto}
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">AMB<span>.</span></div>
+    <ul>
+      <li><a href="#como">Cómo funciona</a></li>
+      <li><a href="#seguros">Seguros</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#contacto" class="btn-nav">Cotizar gratis</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner container">
+      <div class="hero-left fade-up">
+        <div class="hero-badge"><span class="badge-dot"></span> Corredora de Seguros · Chile</div>
+        <h1>El seguro que<br/>siempre <span class="highlight">quisiste</span><br/>entender.</h1>
+        <p class="hero-sub">Cotizamos en todo el mercado, te explicamos todo en simple y te acompañamos cuando más importa: cuando algo sale mal.</p>
+        <div class="hero-actions">
+          <a href="#contacto" class="btn-primary">Cotizar gratis →</a>
+          <a href="#como" class="btn-secondary">Cómo funciona</a>
+        </div>
+      </div>
+      <div class="hero-visual fade-up">
+        <div class="card-float">
+          <div class="card-icon">🚗</div>
+          <div class="card-info"><h4>Seguro Auto</h4><p>Cotización en 2 minutos</p></div>
+          <span class="card-badge">Popular</span>
+        </div>
+        <div class="card-float">
+          <div class="card-icon">🐾</div>
+          <div class="card-info"><h4>Seguro Mascota</h4><p>Cobertura veterinaria completa</p></div>
+          <span class="card-badge">Nuevo</span>
+        </div>
+        <div class="card-float">
+          <div class="card-icon">✈️</div>
+          <div class="card-info"><h4>Seguro Viaje</h4><p>Desde $1.990/día</p></div>
+          <span class="card-badge">Oferta</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="trust-strip">
+    <div class="trust-inner">
+      <div class="trust-item"><span>✓</span><span>Independientes — trabajamos para ti</span></div>
+      <div class="trust-item"><span>✓</span><span>Supervisados por la CMF</span></div>
+      <div class="trust-item"><span>✓</span><span>30+ años de experiencia</span></div>
+      <div class="trust-item"><span>✓</span><span>Asesoría legal incluida</span></div>
+      <div class="trust-item"><span>✓</span><span>Sin letra chica</span></div>
+    </div>
+  </div>
+
+  <section class="como" id="como">
+    <div class="container">
+      <div class="fade-up">
+        <div class="section-eyebrow">Cómo funciona</div>
+        <h2>Simple como debe ser.</h2>
+        <p class="section-sub">Sin llamadas innecesarias, sin papeles, sin esperas. Tres pasos y listo.</p>
+      </div>
+      <div class="steps">
+        <div class="step fade-up">
+          <div class="step-num">1</div>
+          <h3>Cuéntanos qué necesitas</h3>
+          <p>Completa un formulario simple. Te preguntamos lo justo para entender bien tu situación.</p>
+          <span class="step-arrow">→</span>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">2</div>
+          <h3>Comparamos por ti</h3>
+          <p>Revisamos todo el mercado asegurador chileno y te traemos las mejores opciones con explicación clara.</p>
+          <span class="step-arrow">→</span>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">3</div>
+          <h3>Estamos contigo siempre</h3>
+          <p>Cuando ocurre un siniestro, nuestro equipo con formación legal te acompaña en todo el proceso.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seguros" id="seguros">
+    <div class="container">
+      <div class="fade-up">
+        <div class="section-eyebrow">Nuestros seguros</div>
+        <h2>Un seguro para cada<br/>momento de tu vida.</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,.6);margin-bottom:2.5rem">Para el primer auto, la mascota, el próximo viaje o el hogar que tanto costó.</p>
+      </div>
+      <div class="seguros-grid">
+
+        <!-- AUTO -->
+        <div class="seguro-card fade-up">
+          <div class="seg-illustration">
+            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Road -->
+              <rect x="10" y="90" width="180" height="8" rx="4" fill="rgba(255,255,255,0.08)"/>
+              <!-- Car body -->
+              <rect x="30" y="62" width="140" height="34" rx="10" fill="#3B82F6"/>
+              <!-- Cabin -->
+              <path d="M65 62 C70 42 90 36 110 36 C130 36 145 42 148 62Z" fill="#60A5FA"/>
+              <!-- Windows -->
+              <path d="M72 60 C75 46 88 42 100 42 C108 42 116 45 120 52 L120 60Z" fill="rgba(255,255,255,0.2)" rx="4"/>
+              <path d="M122 60 L122 50 C130 50 140 54 145 60Z" fill="rgba(255,255,255,0.15)"/>
+              <!-- Wheels -->
+              <circle cx="68" cy="96" r="14" fill="#1E3A6E"/>
+              <circle cx="68" cy="96" r="8" fill="#2563EB"/>
+              <circle cx="68" cy="96" r="4" fill="rgba(255,255,255,0.3)"/>
+              <circle cx="140" cy="96" r="14" fill="#1E3A6E"/>
+              <circle cx="140" cy="96" r="8" fill="#2563EB"/>
+              <circle cx="140" cy="96" r="4" fill="rgba(255,255,255,0.3)"/>
+              <!-- Headlight -->
+              <rect x="162" y="72" width="12" height="8" rx="4" fill="#BFDBFE"/>
+              <!-- Shield icon -->
+              <path d="M178 20 L188 24 L188 32 C188 37 183 41 178 43 C173 41 168 37 168 32 L168 24 Z" fill="#93C5FD" opacity="0.9"/>
+              <path d="M174 32 L177 35 L183 28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Seguro Auto</h3>
+          <p>Para tu primer auto o el de siempre. Cotizamos en las mejores aseguradoras del país.</p>
+        </div>
+
+        <!-- MASCOTAS -->
+        <div class="seguro-card fade-up">
+          <div class="seg-illustration">
+            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Body -->
+              <ellipse cx="100" cy="82" rx="38" ry="28" fill="#3B82F6"/>
+              <!-- Head -->
+              <circle cx="100" cy="52" r="24" fill="#60A5FA"/>
+              <!-- Ears -->
+              <ellipse cx="80" cy="34" rx="10" ry="14" fill="#3B82F6" transform="rotate(-15 80 34)"/>
+              <ellipse cx="120" cy="34" rx="10" ry="14" fill="#3B82F6" transform="rotate(15 120 34)"/>
+              <ellipse cx="80" cy="34" rx="6" ry="9" fill="#93C5FD" transform="rotate(-15 80 34)"/>
+              <ellipse cx="120" cy="34" rx="6" ry="9" fill="#93C5FD" transform="rotate(15 120 34)"/>
+              <!-- Eyes -->
+              <circle cx="91" cy="50" r="5" fill="white"/>
+              <circle cx="109" cy="50" r="5" fill="white"/>
+              <circle cx="92" cy="51" r="3" fill="#1E3A6E"/>
+              <circle cx="110" cy="51" r="3" fill="#1E3A6E"/>
+              <circle cx="93" cy="50" r="1" fill="white"/>
+              <circle cx="111" cy="50" r="1" fill="white"/>
+              <!-- Nose -->
+              <ellipse cx="100" cy="59" rx="5" ry="3.5" fill="#1E3A6E"/>
+              <!-- Mouth -->
+              <path d="M95 63 Q100 67 105 63" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <!-- Paws -->
+              <ellipse cx="72" cy="100" rx="12" ry="9" fill="#3B82F6"/>
+              <ellipse cx="128" cy="100" rx="12" ry="9" fill="#3B82F6"/>
+              <!-- Tail -->
+              <path d="M138 80 Q160 65 155 50" stroke="#60A5FA" stroke-width="10" stroke-linecap="round" fill="none"/>
+              <!-- Heart -->
+              <path d="M155 18 C155 15 158 13 160 15 C162 13 165 15 165 18 C165 21 160 25 160 25 C160 25 155 21 155 18Z" fill="#93C5FD"/>
+            </svg>
+          </div>
+          <h3>Mascotas</h3>
+          <p>Porque son parte de la familia. Cobertura veterinaria, accidentes y responsabilidad civil.</p>
+        </div>
+
+        <!-- VIAJES -->
+        <div class="seguro-card fade-up">
+          <div class="seg-illustration">
+            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Sky/clouds -->
+              <ellipse cx="40" cy="35" rx="22" ry="12" fill="rgba(255,255,255,0.08)"/>
+              <ellipse cx="55" cy="30" rx="18" ry="11" fill="rgba(255,255,255,0.08)"/>
+              <!-- Plane body -->
+              <path d="M20 70 L140 55 L160 58 C168 60 168 66 160 68 L140 71 Z" fill="#3B82F6"/>
+              <!-- Tail -->
+              <path d="M20 70 L35 55 L50 62 Z" fill="#60A5FA"/>
+              <path d="M20 70 L30 80 L45 72 Z" fill="#60A5FA"/>
+              <!-- Wing -->
+              <path d="M80 62 L100 40 L120 62 Z" fill="#93C5FD"/>
+              <!-- Window row -->
+              <circle cx="110" cy="63" r="4" fill="rgba(255,255,255,0.3)"/>
+              <circle cx="122" cy="62" r="4" fill="rgba(255,255,255,0.3)"/>
+              <circle cx="134" cy="61" r="4" fill="rgba(255,255,255,0.3)"/>
+              <!-- Dotted path -->
+              <path d="M30 95 Q80 75 150 80" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+              <!-- Destination pin -->
+              <circle cx="158" cy="85" r="8" fill="#60A5FA"/>
+              <circle cx="158" cy="85" r="4" fill="white" opacity="0.4"/>
+              <!-- Shield -->
+              <path d="M175 20 L185 24 L185 32 C185 37 180 41 175 43 C170 41 165 37 165 32 L165 24 Z" fill="#93C5FD" opacity="0.9"/>
+              <path d="M171 32 L174 35 L180 28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Viajes</h3>
+          <p>Viaja tranquilo. Cobertura médica internacional, equipaje y cancelaciones.</p>
+        </div>
+
+        <!-- HOGAR -->
+        <div class="seguro-card fade-up">
+          <div class="seg-illustration">
+            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- House body -->
+              <rect x="45" y="60" width="110" height="55" rx="4" fill="#3B82F6"/>
+              <!-- Roof -->
+              <path d="M35 65 L100 20 L165 65 Z" fill="#1A4BAA"/>
+              <!-- Door -->
+              <rect x="85" y="85" width="30" height="30" rx="4" fill="#1E3A6E"/>
+              <circle cx="111" cy="101" r="2.5" fill="#93C5FD"/>
+              <!-- Windows -->
+              <rect x="55" y="72" width="25" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+              <line x1="67.5" y1="72" x2="67.5" y2="94" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+              <line x1="55" y1="83" x2="80" y2="83" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+              <rect x="120" y="72" width="25" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+              <line x1="132.5" y1="72" x2="132.5" y2="94" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+              <line x1="120" y1="83" x2="145" y2="83" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+              <!-- Chimney -->
+              <rect x="130" y="28" width="14" height="22" rx="3" fill="#1A4BAA"/>
+              <!-- Smoke puffs -->
+              <circle cx="137" cy="22" r="6" fill="rgba(255,255,255,0.12)"/>
+              <circle cx="142" cy="15" r="5" fill="rgba(255,255,255,0.08)"/>
+              <!-- Ground -->
+              <rect x="30" y="113" width="140" height="5" rx="2.5" fill="rgba(255,255,255,0.1)"/>
+              <!-- Trees -->
+              <rect x="18" y="85" width="5" height="20" rx="2" fill="#1A4BAA"/>
+              <ellipse cx="20.5" cy="80" rx="10" ry="13" fill="#2563EB"/>
+              <rect x="177" y="85" width="5" height="20" rx="2" fill="#1A4BAA"/>
+              <ellipse cx="179.5" cy="80" rx="10" ry="13" fill="#2563EB"/>
+            </svg>
+          </div>
+          <h3>Hogar</h3>
+          <p>Protege tu departamento o casa contra incendios, robos y daños imprevistos.</p>
+        </div>
+
+        <!-- VIDA -->
+        <div class="seguro-card fade-up">
+          <div class="seg-illustration">
+            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Family figures -->
+              <!-- Person 1 (adult) -->
+              <circle cx="70" cy="38" r="14" fill="#3B82F6"/>
+              <rect x="58" y="54" width="24" height="38" rx="8" fill="#3B82F6"/>
+              <!-- Person 2 (adult) -->
+              <circle cx="130" cy="38" r="14" fill="#60A5FA"/>
+              <rect x="118" y="54" width="24" height="38" rx="8" fill="#60A5FA"/>
+              <!-- Person 3 (child) -->
+              <circle cx="100" cy="50" r="10" fill="#93C5FD"/>
+              <rect x="91" y="62" width="18" height="28" rx="6" fill="#93C5FD"/>
+              <!-- Arms connecting -->
+              <path d="M82 65 Q100 58 118 65" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <!-- Big heart above -->
+              <path d="M88 18 C88 12 94 8 100 12 C106 8 112 12 112 18 C112 25 100 33 100 33 C100 33 88 25 88 18Z" fill="#BFDBFE"/>
+              <!-- Heartbeat line -->
+              <path d="M20 100 L40 100 L50 80 L60 115 L70 90 L80 100 L180 100" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+          <h3>Vida y Salud</h3>
+          <p>Para ti y tu familia. Complementario de salud, vida y accidentes personales.</p>
+        </div>
+
+        <!-- EMPRESAS -->
+        <div class="seguro-card fade-up">
+          <div class="seg-illustration">
+            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Building 1 (tall) -->
+              <rect x="60" y="30" width="42" height="85" rx="4" fill="#3B82F6"/>
+              <!-- Building 2 (shorter) -->
+              <rect x="108" y="50" width="36" height="65" rx="4" fill="#60A5FA"/>
+              <!-- Building 3 (small) -->
+              <rect x="25" y="62" width="30" height="53" rx="4" fill="#1A4BAA"/>
+              <!-- Windows building 1 -->
+              <rect x="66" y="38" width="8" height="8" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="78" y="38" width="8" height="8" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="66" y="52" width="8" height="8" rx="2" fill="rgba(255,255,255,0.4)"/>
+              <rect x="78" y="52" width="8" height="8" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="66" y="66" width="8" height="8" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="78" y="66" width="8" height="8" rx="2" fill="rgba(255,255,255,0.4)"/>
+              <rect x="66" y="80" width="8" height="8" rx="2" fill="rgba(255,255,255,0.4)"/>
+              <rect x="78" y="80" width="8" height="8" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <!-- Windows building 2 -->
+              <rect x="114" y="58" width="7" height="7" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="125" y="58" width="7" height="7" rx="2" fill="rgba(255,255,255,0.4)"/>
+              <rect x="114" y="70" width="7" height="7" rx="2" fill="rgba(255,255,255,0.4)"/>
+              <rect x="125" y="70" width="7" height="7" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="114" y="82" width="7" height="7" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="125" y="82" width="7" height="7" rx="2" fill="rgba(255,255,255,0.4)"/>
+              <!-- Windows building 3 -->
+              <rect x="31" y="70" width="7" height="7" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="42" y="70" width="7" height="7" rx="2" fill="rgba(255,255,255,0.4)"/>
+              <rect x="31" y="82" width="7" height="7" rx="2" fill="rgba(255,255,255,0.3)"/>
+              <rect x="42" y="82" width="7" height="7" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <!-- Ground -->
+              <rect x="15" y="113" width="155" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+              <!-- Shield top right -->
+              <path d="M168 15 L180 20 L180 30 C180 36 174 40 168 42 C162 40 156 36 156 30 L156 20 Z" fill="#93C5FD" opacity="0.9"/>
+              <path d="M163 30 L167 34 L174 26" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Empresas</h3>
+          <p>Desde pymes hasta grandes empresas. Responsabilidad civil, incendio, transporte y más.</p>
+          <span class="seg-chip">Especialistas</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="porque" id="porque">
+    <div class="container">
+      <div class="porque-grid">
+        <div class="porque-left fade-up">
+          <div class="section-eyebrow">Por qué AMB</div>
+          <h2>Seguros sin<br/>letra chica.<br/>Sin vueltas.</h2>
+          <p class="section-sub">Somos corredores independientes: no trabajamos para ninguna aseguradora. Trabajamos para ti.</p>
+          <div class="porque-items">
+            <div class="porque-item">
+              <div class="pq-icon">⚖️</div>
+              <div class="pq-text">
+                <h4>Asesoría legal incluida</h4>
+                <p>Nuestro equipo tiene formación jurídica para defender tus derechos en cada siniestro.</p>
+              </div>
+            </div>
+            <div class="porque-item">
+              <div class="pq-icon">🔍</div>
+              <div class="pq-text">
+                <h4>Comparamos todo el mercado</h4>
+                <p>Revisamos todas las aseguradoras de Chile antes de recomendarte algo.</p>
+              </div>
+            </div>
+            <div class="porque-item">
+              <div class="pq-icon">📱</div>
+              <div class="pq-text">
+                <h4>100% digital</h4>
+                <p>Cotiza, contrata y gestiona tu seguro desde donde estés, sin filas ni papeles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="porque-right fade-up">
+          <div class="stat-card">
+            <div class="stat-num">30+</div>
+            <div class="stat-label">Años de experiencia acumulada en el mercado asegurador chileno</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Independientes. Sin vínculos con aseguradoras</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">6+</div>
+            <div class="stat-label">Tipos de seguro disponibles en un solo lugar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="equipo" id="equipo">
+    <div class="container">
+      <div class="fade-up">
+        <div class="section-eyebrow">Quiénes somos</div>
+        <h2>Tres perfiles,<br/>un propósito.</h2>
+        <p class="section-sub">AMB nace de la combinación de experiencia en el mercado, formación legal y visión de negocio.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card fade-up">
+          <div class="team-avatar">A</div>
+          <div class="team-name">Agustina</div>
+          <div class="team-role">Corredora · Abogada</div>
+          <p class="team-bio">Corredora de seguros con formación jurídica. Lidera la asesoría legal y la gestión de siniestros, asegurando que cada cliente conozca y ejerza sus derechos.</p>
+        </div>
+        <div class="team-card fade-up">
+          <div class="team-avatar">M</div>
+          <div class="team-name">Marco</div>
+          <div class="team-role">Corredor Senior</div>
+          <p class="team-bio">Más de 30 años en el mercado asegurador chileno. Red de contactos con las principales aseguradoras y vasta experiencia en seguros industriales.</p>
+        </div>
+        <div class="team-card fade-up">
+          <div class="team-avatar">B</div>
+          <div class="team-name">Benjamín</div>
+          <div class="team-role">Gestión y Estrategia</div>
+          <p class="team-bio">Ingeniero Civil Industrial UAI. Diseña los procesos, la tecnología y la estrategia de crecimiento para llevar AMB al siguiente nivel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="contacto">
+    <div class="container fade-up">
+      <h2>¿Listo para asegurar<br/>lo que importa?</h2>
+      <p>Cotiza gratis y sin compromiso. Te respondemos en menos de 24 horas.</p>
+      <div class="cta-actions">
+        <a href="mailto:hola@ambseguros.cl" class="btn-white">Cotizar ahora →</a>
+        <a href="https://wa.me/56900000000" class="btn-secondary" style="border-color:rgba(255,255,255,.4);color:white;">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">AMB<span>.</span></div>
+    <p>Corredora de Seguros · Chile · Registro CMF en trámite</p>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((e) => {
+      e.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
